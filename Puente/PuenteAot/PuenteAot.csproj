@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PublishAot>true</PublishAot>
+        <Configurations>Release;Debug</Configurations>
+        <Platform>win-x64</Platform>
+        <Platforms>win-x64</Platforms>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    </PropertyGroup>
+
+    <Target Name="TryThisAfterBuild" AfterTargets="Build">
+        <Message Text="Publish build files" Importance="high" />
+
+        <Exec Command="dotnet publish --no-build -r win-x64 -c Release -p:PublishTrimmed=true" />
+
+        <Message Text="Published build files" Importance="high" />
+    </Target>
+    
+    <Target Name="CopyAfterPublish" AfterTargets="TryThisAfterBuild">
+        <Message Text="Copying published from $(PublishDir)" Importance="high" />
+
+        <ItemGroup>
+            <BuildArtifacts Include="$(PublishDir)*.*" />
+        </ItemGroup>
+
+        <Copy
+                SourceFiles="@(BuildArtifacts)"
+                DestinationFolder="$(SolutionDir)..\PyCom\deps\" />
+
+        <Message Text="Copied published" Importance="high" />
+    </Target>
+
+</Project>

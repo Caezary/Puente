@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <EnableComHosting>true</EnableComHosting>
+        <EnableRegFreeCom>true</EnableRegFreeCom>
+        <Configurations>Release;Debug</Configurations>
+        <Platform>x64</Platform>
+        <Platforms>x64</Platforms>
+    </PropertyGroup>
+    
+    <Target Name="CopyBuild" AfterTargets="Build">
+        <ItemGroup>
+            <BuildArtifacts Include="$(TargetDir)*.*" />
+        </ItemGroup>
+        
+        <Message Text="Copying build files" Importance="high" />
+        
+        <Copy
+            SourceFiles="@(BuildArtifacts)"
+            DestinationFolder="$(SolutionDir)..\PyCom\deps\" />
+        
+        <Message Text="Copied build files" Importance="high" />
+    </Target>
+
+</Project>
